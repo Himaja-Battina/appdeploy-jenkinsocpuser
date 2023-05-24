@@ -29,7 +29,7 @@ if(response_code!=null){
             
                 try {
                     sh """
-		     oc login https://api.1cld-ocp6.pok.stglabs.ibm.com:6443 --token=$OCP_stoken  --namespace=zfw-jenkins-ocp --insecure-skip-tls-verify
+		     oc login https://api.1cld-ocp6.pok.stglabs.ibm.com:6443 --token=$OCP_stoken  --namespace=jenkins-ocp --insecure-skip-tls-verify
                       oc project jenkins-ocp
                         oc apply -f application-deployment.yaml
                     """
