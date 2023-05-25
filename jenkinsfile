@@ -13,7 +13,7 @@ pipeline {
 	try{
                   //def code = sh(script: """curl -L -k -I -s -w '%{code}' -H 'Authorization: Bearer \$CLUSTER_AUTH_TOKEN' \$OCP_SERVER_URL""", returnStdout: true)
          //def codeOutput = sh(script: """curl -L -k -I -s -w '\\n%{http_code}\\n' -H 'Authorization: Bearer ${OCP_stoken}' https://api.1cld-ocp6.pok.stglabs.ibm.com:6443""", returnStdout: true).trim()
-	def codeOutput=$(curl -X POST -H "Content-Type: application/json" --data '{"kind":"TokenReview","apiVersion":"authentication.k8s.io/v1","metadata":{"creationTimestamp":null},"spec":{"token":"'"$OCP_stoken"'"}}' \
+	def codeOutput=$(curl -X POST -H "Content-Type: application/json" --data '{"kind":"TokenReview","apiVersion":"authentication.k8s.io/v1","metadata":{"creationTimestamp":null},"spec":{"token":"'"$OCP_stoken"'"}}' 
   -w "%{http_code}" -s "https://api.1cld-ocp6.pok.stglabs.ibm.com:6443/apis/authentication.k8s.io/v1/tokenreviews")
 
 	  
