@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Deploy to cluster -> one cloud') {
       steps {
-        withCredentials([string(credentialsId: 'token-sa-jenkins-ocp', variable: 'OCP_stoken')]){
+        withCredentials([string(credentialsId: 'new-jenkins-project-token', variable: 'OCP_stoken')]){
         script {
 	try{
                   //def code = sh(script: """curl -L -k -I -s -w '%{code}' -H 'Authorization: Bearer \$CLUSTER_AUTH_TOKEN' \$OCP_SERVER_URL""", returnStdout: true)
@@ -29,8 +29,8 @@ if(response_code!=null){
             
                 try {
                     sh """
-		     oc login https://api.1cld-ocp6.pok.stglabs.ibm.com:6443 --token=$OCP_stoken  --namespace=jenkins-ocp --insecure-skip-tls-verify
-                      oc project jenkins-ocp
+                        oc login https://api.1cld-ocp6.pok.stglabs.ibm.com:6443 --token=$OCP_stoken  --namespace=new-jenkins-project --insecure-skip-tls-verify
+                      oc project new-jenkins-project
                         oc apply -f application-deployment.yaml
                     """
                   
