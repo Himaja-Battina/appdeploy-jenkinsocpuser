@@ -8,12 +8,12 @@ pipeline {
   stages {
     stage('Deploy to cluster -> one cloud') {
       steps {
-        withCredentials([string(credentialsId: 'new-jenkins-project-token', variable: 'OCP_stoken')]){
+        withCredentials([string(credentialsId: 'token-sa-jenkins-ocp', variable: 'OCP_stoken')]){
         script {
 	try{
                   //def code = sh(script: """curl -L -k -I -s -w '%{code}' -H 'Authorization: Bearer \$CLUSTER_AUTH_TOKEN' \$OCP_SERVER_URL""", returnStdout: true)
-         //def codeOutput = sh(script: """curl -L -k -I -s -w '\\n%{http_code}\\n' -H 'Authorization: Bearer ${OCP_stoken}' https://api.1cld-ocp6.pok.stglabs.ibm.com:6443""", returnStdout: true).trim()
-	def codeOutput=sh(script:"""curl -X POST -H "Content-Type: application/json" --data '{"kind":"TokenReview","apiVersion":"authentication.k8s.io/v1","metadata":{"creationTimestamp":null},"spec":{"token":"'"$OCP_stoken"'"}}' -w "%{http_code}" -s "https://api.1cld-ocp6.pok.stglabs.ibm.com:6443/apis/authentication.k8s.io/v1/tokenreviews"""",returnStdout: true).trim()
+         def codeOutput = sh(script: """curl -L -k -I -s -w '\\n%{http_code}\\n' -H 'Authorization: Bearer ${OCP_stoken}' https://api.1cld-ocp6.pok.stglabs.ibm.com:6443""", returnStdout: true).trim()
+	//def codeOutput=sh(script:"""curl -X POST -H "Content-Type: application/json" --data '{"kind":"TokenReview","apiVersion":"authentication.k8s.io/v1","metadata":{"creationTimestamp":null},"spec":{"token":"'"$OCP_stoken"'"}}' -w "%{http_code}" -s "https://api.1cld-ocp6.pok.stglabs.ibm.com:6443/apis/authentication.k8s.io/v1/tokenreviews"""",returnStdout: true).trim()
 
 	  
 	
@@ -30,8 +30,8 @@ if(response_code!=null){
             
                 try {
                     sh """
-                        oc login https://api.1cld-ocp6.pok.stglabs.ibm.com:6443 --token=$OCP_stoken  --namespace=new-jenkins-project --insecure-skip-tls-verify
-                      oc project new-jenkins-project
+                        oc login https://api.1cld-ocp6.pok.stglabs.ibm.com:6443 --token=$OCP_stoken  --namespace=jenkins-ocp --insecure-skip-tls-verify
+                      oc project jenkis-ocp
                         oc apply -f application-deployment.yaml
                     """
                   
